@@ -1,0 +1,21 @@
+from _struct import pack_into
+def verify_quantidade():
+    for key, product in loja.items():
+        if 'quantidade' in product:
+            print(f'{key} - quantidade: {product['quantidade']}')
+
+loja = {
+    'produto1':{'nome': 'caderno', 'preco': 2.5, 'quantidade': 50},
+    'produto2':{'nome': 'caneta', 'preco': 1.0, 'quantidade':100}
+}
+loja['produto3'] = {'nome': 'borracha', 'preco': 3.0, 'quantidade':25}
+
+loja['produto1']['quantidade'] = 70
+
+verify_quantidade()
+
+
+
+
+
+
