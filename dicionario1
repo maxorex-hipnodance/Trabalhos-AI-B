@@ -1,18 +1,111 @@
-from _struct import pack_into
-def verify_quantidade():
-    for key, product in loja.items():
-        if 'quantidade' in product:
-            print(f'{key} - quantidade: {product['quantidade']}')
+import uuid
+import random
 
 loja = {
-    'produto1':{'nome': 'caderno', 'preco': 2.5, 'quantidade': 50},
-    'produto2':{'nome': 'caneta', 'preco': 1.0, 'quantidade':100}
+    str(uuid.uuid4()):{'name': 'caderno', 'price': round(random.randint(1,50)+random.random(),2), 'quantity': random.randint(1,100)},
+    str(uuid.uuid4()):{'name': 'caneta', 'price': round(random.randint(1,50)+random.random(),2), 'quantity':random.randint(1,100)}
 }
-loja['produto3'] = {'nome': 'borracha', 'preco': 3.0, 'quantidade':25}
 
-loja['produto1']['quantidade'] = 70
+def verify_quantidade():   #verificar quantidade das items
+    for key, product in loja.items():
+        if 'quantity' in product:
+            print(f'{product['name']} - quantity: {product['quantity']}')
 
-verify_quantidade()
+def sum_of_items(): #5
+    total = sum(product['quantity'] for product in loja.values())
+    print(f'Total quantity: {total}')
+
+def add_product():
+    name_of_product = input('Insert name of product:')
+    price_of_product = float(input('incert price of product:'))
+    quantity_of_product = int(input('incert quantity of product:'))
+
+    product_dict = {
+        'name': name_of_product,
+        'price': price_of_product,
+        'quantity': quantity_of_product
+    }
+    loja[uuid.uuid4()] = product_dict
+
+def update_product():
+    for pruduct_name in loja:
+        print(f'-{pruduct_name}')
+    product_name = input('Enter the name of the product you want to update: ')
+    if pruduct_name in loja:
+        print(f"Current product data '{product_name}': {loja[product_name]}")
+        field_to_update = input("What do you want to upgrade? (name/price/quantity): ").lower()
+        if field_to_update == 'name':
+            new_name = input("Enter a new product name: ")
+            loja[new_name] = loja.pop(product_name)
+            loja[new_name]['name'] = new_name
+            print(f"The product name has been updated to '{new_name}'!")
+        elif field_to_update == 'price':
+            new_price = float(input("Enter a new product price: "))
+            loja[product_name]['price'] = new_price
+            print(f"Product price '{product_name}' updated on {new_price}!")
+        elif field_to_update == 'quantity':
+            new_quantity = int(input("Enter a new product quantity: "))
+            loja[product_name]['quantity'] = new_quantity
+            print(f"Product quantity '{product_name}' updated on {new_quantity}!")
+        else:
+            print("Incorrect selection of the field to update.")
+    else:
+     print(f"A product with the name '{product_name}' not found.")
+
+def sum_of_prices():
+    total_price = sum(product['price'] for product in loja.values())
+    print(f'Total price: {total_price}')
+
+def delete_product():
+    product_key = input("Enter the product key to delete: ")
+    if product_key in loja:
+        del loja[product_key]
+        print(f"Product '{product_key}' deleted successfully.")
+    else:
+        print(f"Product '{product_key}' not found in the store.")
+
+while True:
+    print('Hello, we glad do see you in our store')
+    print(' \n What option you want? ')
+    print(' \n1. Add new product' #yes
+        '\n2. Update product'#yes
+        '\n3. Check quantity in stock'#yes
+        '\n4. Delete product'#yes
+        '\n5. Calculate quantity of items'#yes
+        '\n6. Calculate all price in the store'
+        '\n7. Show list of products '  ) #yes
+
+    choose = input()
+    if choose == '1' or choose == 'Add new product':
+            add_product()
+            print(loja)
+    if choose == '2' or choose == 'Update product price':
+            update_product()
+    if choose == '3' or choose == 'Check quantity in stock':
+            verify_quantidade()
+    if choose == '4' or choose == 'Delete product':
+            delete_product()
+    if choose == '5' or choose == 'Calculate quantity of items':
+            sum_of_items()
+    if choose == '6' or choose == 'Calculate all price in the store':
+            sum_of_prices()
+    if choose == '7' or choose == 'Show list of products':
+        print(loja)
+
+
+
+    else:
+        pass
+
+    print('end?:')
+    end = input().upper()
+
+    if end == 'YES':
+            break
+
+
+
+
 
 
 
